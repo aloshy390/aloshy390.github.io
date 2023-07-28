@@ -1,90 +1,127 @@
-<head>
-  <title>Canine Couture Classics</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="main.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-  <div class="header">
-    <h1 class="logo">Canine Couture Classics</h1>
-    <h2>Australia's most beautiful pet accessories.</h2>
-    <a href="#">Shop now</a>
-  </div>
-  
-  <div class="about">
-    <h3>About us</h3>
-    <p class="about-text">We are a lifestyle brand that came about from a shared love of our favourite pets. All items ship from Melbourne, Australia.</p>
-    <p class="about-text">We believe that every pet deserves to look and feel their best. That's why we create exclusive designs that are stylish, comfortable and durable. Our collections are perfect for pet owners who want to provide their furry friends with the best quality products.</p>
-    <img src="dog-blue-background.jpg">
-  
-  </div>
-  
-  <div class="main">
-    <div class="product-section">
-      <h3>Our Products</h3>
-      <p>Canine Couture Classics offer a large range of pet products including dog collars, harnessess, leads and more.</p>
-      
-      <div class="product first">
-        <img src="brown-collar.jpg" alt="handmade brown leather dog collar">
-        <p class="name">Handmade Brown Leather Collar</p>
-        <p class="cost">$24.50</p>
-      </div>
-      
-      <div class="product">
-        <img src="blue-collar.jpg" alt="blue dog collar">
-        <p class="name">Handmade Blue Collar</p>
-        <p class="cost">$27.90</p>
-      </div>
-      
-      <div class="product last">
-        <img src="three-collars.jpg" alt="stack of handmade dog collars">
-        <p class="name">3 Collar Combo deal</p>
-        <p class="cost">$59</p>
-      </div>
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
 
+    <title>Number guessing game</title>
+
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+        width: 50%;
+        max-width: 800px;
+        min-width: 480px;
+        margin: 0 auto;
+      }
+      
+      .form input[type="number"] {
+        width: 200px;
+      }
+
+      .lastResult {
+        color: white;
+        padding: 3px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Number guessing game</h1>
+
+    <p>We have selected a random number between 1 and 100. See if you can guess it in 10 turns or fewer. We'll tell you if your guess was too high or too low.</p>
+
+    <div class="form">
+      <label for="guessField">Enter a guess: </label>
+      <input type="number" min="1" max="100" required id="guessField" class="guessField">
+      <input type="submit" value="Submit guess" class="guessSubmit">
     </div>
-  </div>
-  
-  <div class="location">
-    <h3>Visit our store</h3>
-    <p>Come and visit us in person!</p>
-    <p class="address">23 Pet Lane, Melbourne Australia </p>
-    <img src="map.jpg" alt="phone with map open">
-  </div>
-  
-  <div class="footer">
- 
-    <div class="footer-section footer-orders">
-      <h4>Shop Online</h4>
-      <p><a href="#">Online Store</a></p>
-      <p><a href="#">Delivery Information</a></p>
-      <p><a href="#">FAQ</a></p>
-      <p><a href="#">Refunds &amp; Returns</a></p>
+
+    <div class="resultParas">
+      <p class="guesses"></p>
+      <p class="lastResult"></p>
+      <p class="lowOrHi"></p>
     </div>
-    <div class="footer-section footer-about">
-      <h4>About</h4>
-      <p><a href="#">About us</a></p>
-      <p><a href="#">Find a Store</a></p>
-      <p><a href="#">Blog</a></p>
-      <p><a href="#">Careers</a></p>
-    </div>
-    <div class="footer-section footer-social">
-      <h4>Follow us! </h4>
-      <p><a href="#"><span class="fa fa-facebook"></span> Facebook</a></p>
-      <p><a href="#"><span class="fa fa-twitter"></span> Twitter</a></p>
-      <p><a href="#"><span class="fa fa-instagram"></span> Instagram</a></p>
-      <p><a href="#"><span class="fa fa-youtube"></span> Youtube</a></p>
-    </div>
-    <div class="footer-section footer-logo">
-      <h4 class="logo">Canine Couture Classics</h4>
-    </div>
-    <div class="site-links">
-      <p>
-        <span class="acknowledgement">We would like to acknowledge that Canine Couture Classics resides in Naarm, the country of the Kulin nation.</span> 
-        <span class="copyright">&copy; Copyright 2021 - 2023 Canine Couture Classics, Pty Ltd.</span>
-        <a href="#">Terms and conditions</a>
-        <a href="#">Privacy policy</a>
-        <a href="#">Accessibility</a>
-      </p>
-    </div>
-  </div>
-</body>
+
+    <script>
+
+      let randomNumber = Math.floor(Math.random() * 100) + 1;
+
+      const guesses = document.querySelector(".guesses");
+      const lastResult = document.querySelector(".lastResult");
+      const lowOrHi = document.querySelector(".lowOrHi");
+
+      const guessSubmit = document.querySelector(".guessSubmit");
+      const guessField = document.querySelector(".guessField");
+
+      let guessCount = 1;
+      let resetButton;
+      guessField.focus();
+      function checkGuess() {
+        const userGuess = Number(guessField.value);
+        if (guessCount === 1) {
+          guesses.textContent = "Previous guesses: ";
+        }
+        guesses.textContent += `${userGuess} `;
+
+        if (userGuess === randomNumber) {
+          lastResult.textContent = "Congratulations! You got it right!";
+          lastResult.style.backgroundColor = "green";
+          lowOrHi.textContent = "";
+          setGameOver();
+        } else if (guessCount === 10) {
+          lastResult.textContent = "!!!GAME OVER!!!";
+          lowOrHi.textContent = "";
+          setGameOver();
+        } else {
+          lastResult.textContent = "Wrong!";
+          lastResult.style.backgroundColor = "red";
+          if (userGuess < randomNumber) {
+            lowOrHi.textContent = "Last guess was too low!";
+          } else if (userGuess > randomNumber) {
+            lowOrHi.textContent = "Last guess was too high!";
+          }
+        }
+
+        guessCount++;
+        guessField.value = "";
+        guessField.focus();
+      }
+
+    guessSubmit.addEventListener("click", checkGuess);
+
+    function setGameOver() {
+      guessField.disabled = true;
+      guessSubmit.disabled = true;
+      resetButton = document.createElement("button");
+      resetButton.textContent = "Start new game";
+      document.body.append(resetButton);
+      resetButton.addEventListener("click", resetGame);
+    }
+
+    function resetGame() {
+      guessCount = 1;
+
+      const resetParas = document.querySelectorAll(".resultParas p");
+      for (const resetPara of resetParas) {
+        resetPara.textContent = "";
+      }
+
+      resetButton.parentNode.removeChild(resetButton);
+
+      guessField.disabled = false;
+      guessSubmit.disabled = false;
+      guessField.value = "";
+      guessField.focus();
+
+      lastResult.style.backgroundColor = "white";
+
+      randomNumber = Math.floor(Math.random() * 100) + 1;
+    }
+
+
+    </script>
+  </body>
+</html>
